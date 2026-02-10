@@ -27,30 +27,8 @@ freq_coop <- coop %>%
 freq_laban
 freq_coop
 
-
-freq_diag_laban <- ggplot(freq_laban, aes(x=`Lengde`, y=n)) +
-  geom_col() +
-  geom_vline(aes(xintercept=mid_laban, color="Middelverdi (x̄)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=med_laban, color="Median (x̃)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=type_laban, color="Typetall (x_max)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=mid_laban - sd_laban, color="x̄ − s"), linewidth=0.9, linetype="dashed") +
-  geom_vline(aes(xintercept=mid_laban + sd_laban, color="x̄ + s"), linewidth=0.9, linetype="dashed") +
-  labs(title="Frekvensdiagram - Laban", x="Lengde", y="Antall", color="Linjer") +
-  theme_minimal() + theme(legend.position="bottom")
-
-freq_diag_coop <- ggplot(freq_coop, aes(x=`Lengde`, y=n)) +
-  geom_col() +
-  geom_vline(aes(xintercept=mid_coop, color="Middelverdi (x̄)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=med_coop, color="Median (x̃)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=type_coop, color="Typetall (x_max)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=mid_coop - sd_laban, color="x̄ − s"), linewidth=0.9, linetype="dashed") +
-  geom_vline(aes(xintercept=mid_coop + sd_laban, color="x̄ + s"), linewidth=0.9, linetype="dashed") +
-  labs(title="Frekvensdiagram - Coop", x="Lengde", y="Antall", color="Linjer") +
-  theme_minimal() + theme(legend.position="bottom")
-  
-
-freq_diag_laban
-freq_diag_coop
+write.csv(freq_laban, "FrekvensLaban.csv", row.names = FALSE, quote = FALSE)
+write.csv(freq_coop, "FrekvensCoop.csv", row.names = FALSE, quote = FALSE)
 
 
 #Kumulative frekvenser
@@ -62,34 +40,6 @@ cum_coop <- freq_coop %>%
 
 cum_laban
 cum_coop
-
-
-#Kumulative frekvensdiagrammer
-cum_diag_laban <- ggplot(cum_laban, aes(x=`Lengde`, y=Kumulativ_frekvens)) +
-  geom_step(linewidth=0.9) +
-  geom_vline(aes(xintercept=mid_laban, color="Middelverdi (x̄)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=med_laban, color="Median (x̃)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=type_laban, color="Typetall (x_max)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=mid_laban - sd_laban, color="x̄ − s"), linewidth=0.9, linetype="dashed") +
-  geom_vline(aes(xintercept=mid_laban + sd_laban, color="x̄ + s"), linewidth=0.9, linetype="dashed") +
-  labs(title="Kumulativt frekvensdiagram - Laban", x="Lengde", y="Kumulativ frekvens", color="Linjer") +
-  theme_minimal() + theme(legend.position="bottom")
-
-cum_diag_coop <- ggplot(cum_coop, aes(x=`Lengde`, y=Kumulativ_frekvens)) +
-  geom_step(linewidth=0.9) +
-  geom_vline(aes(xintercept=mid_coop, color="Middelverdi (x̄)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=med_coop, color="Median (x̃)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=type_coop, color="Typetall (x_max)"), linewidth=0.9) +
-  geom_vline(aes(xintercept=mid_coop - sd_laban, color="x̄ − s"), linewidth=0.9, linetype="dashed") +
-  geom_vline(aes(xintercept=mid_coop + sd_laban, color="x̄ + s"), linewidth=0.9, linetype="dashed") +
-  labs(title="Kumulativt frekvensdiagram - Laban", x="Lengde", y="Kumulativ frekvens", color="Linjer") +
-  theme_minimal() + theme(legend.position="bottom") 
-
-cum_diag_laban
-cum_diag_laban
-
-
-
 
 #Medianer
 mid_laban <- sum(cum_laban$Lengde*cum_laban$n) / sum(cum_laban$n) 
@@ -126,6 +76,66 @@ sd_laban
 sd_coop
 
 
+#Kumulative frekvensdiagrammer
+cum_diag_laban <- ggplot(cum_laban, aes(x=`Lengde`, y=Kumulativ_frekvens)) +
+  geom_step(linewidth=0.9) +
+  geom_vline(aes(xintercept=mid_laban, color="Middelverdi"), linewidth=0.9) +
+  geom_vline(aes(xintercept=med_laban, color="Median"), linewidth=0.9) +
+  geom_vline(aes(xintercept=type_laban, color="Typetall (x_max)"), linewidth=0.9) +
+  geom_vline(aes(xintercept=mid_laban - sd_laban, color="middel − s"), linewidth=0.9, 
+             linetype="dashed") +
+  geom_vline(aes(xintercept=mid_laban + sd_laban, color="middel + s"), linewidth=0.9, 
+             linetype="dashed") +
+  labs(title="Kumulativt frekvensdiagram - Laban", x="Lengde", y="Kumulativ frekvens", 
+       color="Linjer") +
+  theme_minimal() + theme(legend.position="bottom")
+
+cum_diag_coop <- ggplot(cum_coop, aes(x=`Lengde`, y=Kumulativ_frekvens)) +
+  geom_step(linewidth=0.9) +
+  geom_vline(aes(xintercept=mid_coop, color="Middelverdi"), linewidth=0.9) +
+  geom_vline(aes(xintercept=med_coop, color="Median"), linewidth=0.9) +
+  geom_vline(aes(xintercept=type_coop, color="Typetall (x_max)"), linewidth=0.9) +
+  geom_vline(aes(xintercept=mid_coop - sd_coop, color="middel − s"), linewidth=0.9, 
+             linetype="dashed") +
+  geom_vline(aes(xintercept=mid_coop + sd_coop, color="middel + s"), linewidth=0.9, 
+             linetype="dashed") +
+  labs(title="Kumulativt frekvensdiagram - Coop", x="Lengde", y="Kumulativ frekvens", 
+       color="Linjer") +
+  theme_minimal() + theme(legend.position="bottom") 
+
+cum_diag_laban
+cum_diag_coop
+
+
+#Frekvens diagram -
+freq_diag_laban <- ggplot(freq_laban, aes(x=`Lengde`, y=n)) +
+  geom_col() +
+  geom_vline(aes(xintercept=mid_laban, color="Middelverdi"), linewidth=0.9) +
+  geom_vline(aes(xintercept=med_laban, color="Median"), linewidth=0.9) +
+  geom_vline(aes(xintercept=type_laban, color="Typetall (x_max)"), linewidth=0.9) +
+  geom_vline(aes(xintercept=mid_laban - sd_laban, color="x − s"), linewidth=0.9, 
+             linetype="dashed") +
+  geom_vline(aes(xintercept=mid_laban + sd_laban, color="x + s"), linewidth=0.9, 
+             linetype="dashed") +
+  labs(title="Frekvensdiagram - Laban", x="Lengde", y="Antall", color="Linjer") +
+  theme_minimal() + theme(legend.position="bottom")
+
+freq_diag_coop <- ggplot(freq_coop, aes(x=`Lengde`, y=n)) +
+  geom_col() +
+  geom_vline(aes(xintercept=mid_coop, color="Middelverdi"), linewidth=0.9) +
+  geom_vline(aes(xintercept=med_coop, color="Median"), linewidth=0.9) +
+  geom_vline(aes(xintercept=type_coop, color="Typetall (x_max)"), linewidth=0.9) +
+  geom_vline(aes(xintercept=mid_coop - sd_coop, color="x − s"), linewidth=0.9, 
+             linetype="dashed") +
+  geom_vline(aes(xintercept=mid_coop + sd_coop, color="x + s"), linewidth=0.9, 
+             linetype="dashed") +
+  labs(title="Frekvensdiagram - Coop", x="Lengde", y="Antall", color="Linjer") +
+  theme_minimal() + theme(legend.position="bottom")
+
+freq_diag_laban
+freq_diag_coop
+
+
 #Oppsummering
 tabell_laban <- data.frame(Mål = c("Middelverdi", "Median", "Typetall",  "Standardavvik"),
                            Verdi = c(mid_laban, med_laban, type_laban, sd_laban))
@@ -142,7 +152,4 @@ oppsummering$Laban <- round(oppsummering$Laban, 2)
 oppsummering$Coop <- round(oppsummering$Coop, 2)
 
 oppsummering
-write.csv2(oppsummering, "oppsummering.csv", row.names = FALSE)
-
-
-
+write.csv(oppsummering, "oppsummering.csv", row.names = FALSE, quote = FALSE)
